@@ -15,7 +15,8 @@
     "wp-cli/wp-cli-bundle": "^2.2",
     "wp-coding-standards/wpcs": "^2.2",
     "wp-phpunit/wp-phpunit": "^5.4",
-    "wpsh/local": "^0.2.3"
+    "wpsh/local": "^0.2.3",
+    "wp-premium/gravityforms": "^2.4.17"
   },
   "config": {
     "process-timeout": 600,
@@ -25,7 +26,10 @@
     }
   },
   "extra": {
-    "wordpress-install-dir": "local/public"
+    "wordpress-install-dir": "local/public",
+    "installer-paths": {
+      "local/public/wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
+    }
   },
   "scripts": {
     "release": [
