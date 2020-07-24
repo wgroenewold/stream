@@ -20,7 +20,7 @@ services:
       - mysql
       - db_phpunit
     ports:
-      - "80:80"
+      - "8080:80"
       - "443:443"
       - "9000:9000" # Xdebug
     volumes:
