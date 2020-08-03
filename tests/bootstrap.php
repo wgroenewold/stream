@@ -47,6 +47,8 @@ tests_add_filter(
 	}
 );
 
+tests_add_filter( 'jetpack_offline_mode', '__return_true' );
+
 // @see https://core.trac.wordpress.org/browser/trunk/tests/phpunit/includes/bootstrap.php
 require $_tests_dir . '/includes/bootstrap.php';
 
