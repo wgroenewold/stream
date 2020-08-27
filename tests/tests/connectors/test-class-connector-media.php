@@ -32,7 +32,7 @@ class Test_WP_Stream_Connector_Media extends WP_StreamTestCase {
 		$post_id = self::factory()->post->create( array( 'post_title' => 'Test post' ) );
 
 		// Expected log calls.
-		$this->mock->expects( $this->exactly( 2 ) )
+		$this->mock->expects( $this->exactly( 3 ) )
 			->method( 'log' )
 			->withConsecutive(
 				array(
@@ -72,6 +72,28 @@ class Test_WP_Stream_Connector_Media extends WP_StreamTestCase {
 					$this->greaterThan( 0 ),
 					$this->equalTo( 'document' ),
 					$this->equalTo( 'attached' ),
+				),
+				array(
+					$this->equalTo(
+						_x(
+							'Attached "%1$s" to "%2$s"',
+							'1: Attachment title, 2: Parent post title',
+							'stream'
+						)
+					),
+					$this->callback(
+						function( $subject ) {
+							$expected = array(
+								'name'         => 'Document one',
+								'parent_title' => 'Unidentifiable post',
+								'parent_id'    => 42,
+							);
+							return $expected === array_intersect_key( $expected, $subject );
+						}
+					),
+					$this->greaterThan( 0 ),
+					$this->equalTo( 'document' ),
+					$this->equalTo( 'attached' ),
 				)
 			);
 
@@ -89,6 +111,16 @@ class Test_WP_Stream_Connector_Media extends WP_StreamTestCase {
 				'post_type'    => 'attachment',
 				'post_content' => 'some description',
 				'post_parent'  => $post_id
+			)
+		);
+
+		// Create attachment with invalid post parent.
+		self::factory()->post->create(
+			array(
+				'post_title'   => 'Document one',
+				'post_type'    => 'attachment',
+				'post_content' => 'some description',
+				'post_parent'  => 42
 			)
 		);
 
